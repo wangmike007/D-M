@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
     private static final int AUDIO_PERMISSION_REQUEST = 4102;
     private static final String PREFS = "dm_native";
     private static final String THEME_KEY = "launcher_theme";
+    private static final String APPLIED_ICON_KEY = "launcher_icon";
 
     private WebView webView;
     private ValueCallback<Uri[]> fileCallback;
@@ -66,7 +67,11 @@ public class MainActivity extends Activity {
         settings.setUserAgentString(settings.getUserAgentString() + " DMAndroid/1.0");
 
         webView.addJavascriptInterface(new ThemeBridge(), "DMNative");
-        applyLauncherTheme(getPreferences(MODE_PRIVATE).getString(THEME_KEY, "light"));
+        String savedTheme = getPreferences(MODE_PRIVATE).getString(THEME_KEY, "light");
+        String appliedTheme = getPreferences(MODE_PRIVATE).getString(APPLIED_ICON_KEY, "");
+        if (!savedTheme.equals(appliedTheme)) {
+            applyLauncherTheme(savedTheme);
+        }
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -163,13 +168,9 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void setTheme(String theme) {
             if (!"dark".equals(theme) && !"light".equals(theme)) return;
+            // Save only. Disabling an activity alias while the WebView is visible can
+            // make Android finish the task, so the launcher icon updates on next launch.
             getPreferences(MODE_PRIVATE).edit().putString(THEME_KEY, theme).apply();
-            final String nextTheme = theme;
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    applyLauncherTheme(nextTheme);
-                }
-            });
         }
     }
 
@@ -185,6 +186,7 @@ public class MainActivity extends Activity {
                 getPackageManager().setComponentEnabledSetting(light, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
                 getPackageManager().setComponentEnabledSetting(darkIcon, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
             }
+            getPreferences(MODE_PRIVATE).edit().putString(APPLIED_ICON_KEY, dark ? "dark" : "light").apply();
         } catch (Exception ignored) {
             // Launcher icon switching is best-effort across OEM launchers.
         }

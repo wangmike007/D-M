@@ -1,4 +1,4 @@
-const CACHE = 'dm-shell-v4';
+const CACHE = 'dm-shell-v5';
 const SHELL = [
   '/',
   '/index.html',

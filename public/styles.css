@@ -6322,3 +6322,116 @@ html[data-theme="construct"][data-scheme="light"] .empty-state h2 {
 }
 
 .settings-file { display: none; }
+
+
+/* Dark D: a quiet field of light points. No mesh, no firing, no sprouts. */
+html[data-theme="construct"] .wd-dot {
+  opacity: .32;
+  animation: none;
+  transition: none;
+  transform: none;
+  filter: none;
+}
+
+@keyframes wd-dot-breathe {
+  0%, 100% { opacity: .22; }
+  50% { opacity: .52; }
+}
+
+html[data-theme="construct"] .wd-neural,
+html[data-theme="construct"] .wd-synapse,
+html[data-theme="construct"] .wd-sprout,
+html[data-theme="construct"] .wd-neuron {
+  display: none;
+}
+
+html[data-theme="construct"] .wd-dot.is-hot,
+html[data-theme="construct"] .wd-net-node,
+html[data-theme="construct"] .wd-net-node.wd-dot.is-hot {
+  fill: #d8e5ff;
+  opacity: .34;
+  filter: none;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="construct"] .wd-dot {
+    animation: none;
+    opacity: .3;
+  }
+}
+
+
+/* One dot at a time, slow fade. No mesh, no glow, no scaling. */
+html[data-theme="construct"] .wd-dot {
+  transition: opacity 1.15s ease, fill 1.15s ease;
+}
+
+html[data-theme="construct"] .wd-dot.is-quiet-hot {
+  fill: #edf4ff;
+  opacity: .68;
+  filter: none;
+  transform: none;
+}
+
+
+/* Phone landscape: keep the light MOSS art in its own right-hand column. */
+@media (max-height: 520px) and (orientation: landscape) {
+  html[data-theme="construct"][data-scheme="light"] .topbar .title-wrap {
+    max-width: calc(100% - 218px);
+  }
+
+  html[data-theme="construct"][data-scheme="light"] .topbar .title-wrap h1 {
+    font-size: 18px;
+    max-width: 100%;
+  }
+
+  html[data-theme="construct"][data-scheme="light"] .topbar .conv-meta {
+    max-width: 100%;
+  }
+
+  html[data-theme="construct"][data-scheme="light"] .sonar-viewport .chat-sonar {
+    width: 190px;
+    height: 190px;
+    top: 44px;
+    right: 10px;
+    opacity: .42;
+    background-size: 78% auto;
+  }
+
+  html[data-theme="construct"][data-scheme="light"] .empty-state {
+    max-width: calc(100% - 228px);
+    padding-top: 10px;
+  }
+
+  html[data-theme="construct"][data-scheme="light"] .empty-state h2 {
+    margin: 10px 0 8px;
+    font-size: clamp(24px, 5.4vw, 38px);
+    line-height: 1.02;
+  }
+}
+
+
+@media (max-height: 520px) and (orientation: landscape) {
+  html[data-theme="construct"][data-scheme="light"] .chat-sonar {
+    width: 190px !important;
+    height: 190px !important;
+    top: 104px !important;
+    right: 10px !important;
+    transform: none !important;
+    opacity: .42 !important;
+    background-size: 78% auto !important;
+  }
+
+  html[data-theme="construct"][data-scheme="light"] .empty-state {
+    max-width: calc(100% - 228px) !important;
+    padding-top: 10px !important;
+  }
+
+  html[data-theme="construct"][data-scheme="light"] .empty-state h2 {
+    margin: 6px 0 6px !important;
+    max-width: 100% !important;
+    font-size: clamp(22px, 4.6vw, 32px) !important;
+    line-height: 1.0 !important;
+  }
+}

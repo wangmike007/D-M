@@ -3985,6 +3985,49 @@ function bindEvents() {
 
 /* ---------- 启动 ---------- */
 
+
+function initQuietDots() {
+  const svg = document.querySelector('.whale-d');
+  const dots = svg ? [...svg.querySelectorAll('.wd-dot')] : [];
+  if (!dots.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let timer = 0;
+  let alive = true;
+
+  function pulse() {
+    if (!alive || document.hidden) return;
+    if (document.documentElement.dataset.scheme !== 'dark') return;
+    const dot = dots[Math.floor(Math.random() * dots.length)];
+    if (!dot || dot.classList.contains('is-quiet-hot')) return;
+    dot.classList.add('is-quiet-hot');
+    window.setTimeout(() => dot.classList.remove('is-quiet-hot'), 1500 + Math.random() * 1100);
+    if (Math.random() < .28) {
+      const second = dots[Math.floor(Math.random() * dots.length)];
+      if (second && second !== dot) {
+        second.classList.add('is-quiet-hot');
+        window.setTimeout(() => second.classList.remove('is-quiet-hot'), 1300 + Math.random() * 900);
+      }
+    }
+  }
+
+  function schedule() {
+    if (!alive) return;
+    pulse();
+    timer = window.setTimeout(schedule, 680 + Math.random() * 720);
+  }
+
+  schedule();
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      alive = false;
+      window.clearTimeout(timer);
+    } else if (!alive) {
+      alive = true;
+      schedule();
+    }
+  }, { passive: true });
+}
+
 function initNeuralD() {
   const svg = document.querySelector('.whale-d');
   const layer = svg?.querySelector('.wd-neural');
@@ -4118,7 +4161,8 @@ function init() {
   bindEvents();
   renderAll();
   setGeneratingUI(false);
-  initNeuralD();
+  // The dark D keeps the quiet dot field; random highlights are slow and isolated.
+  initQuietDots();
   if (state.settings.apiKey.trim()) {
     setTimeout(() => void refreshBalance({ silent: true }), 700);
   }
