@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="MOSS 黑色镜头内核与红色中心，深色主题">
+  <circle cx="300" cy="300" r="292" fill="#0d0b08"/>
+  <circle cx="300" cy="300" r="292" fill="none" stroke="#f2ebdb" stroke-width="8"/>
+  <g fill="none" stroke="#2a241c" stroke-width="7">
+    <circle cx="300" cy="300" r="252"/>
+    <circle cx="300" cy="300" r="226"/>
+    <circle cx="300" cy="300" r="196"/>
+    <circle cx="300" cy="300" r="166"/>
+    <circle cx="300" cy="300" r="136"/>
+    <circle cx="300" cy="300" r="106"/>
+  </g>
+  <g stroke="#3b3025" stroke-width="3" opacity=".8">
+    <path d="M300 8V48M300 552V592M8 300H48M552 300H592"/>
+    <path d="M94 94L122 122M478 478L506 506M94 506L122 478M478 122L506 94"/>
+  </g>
+  <g fill="none" stroke="#f2ebdb" stroke-width="5">
+    <circle cx="300" cy="300" r="252"/>
+    <circle cx="300" cy="300" r="196"/>
+    <circle cx="300" cy="300" r="136"/>
+    <circle cx="300" cy="300" r="78"/>
+    <circle cx="300" cy="300" r="36"/>
+  </g>
+  <g fill="none" stroke="#f2ebdb" stroke-width="3" opacity=".85">
+    <circle cx="300" cy="300" r="226"/>
+    <circle cx="300" cy="300" r="166"/>
+    <circle cx="300" cy="300" r="106"/>
+  </g>
+  <path d="M300 48 A252 252 0 0 0 48 300" fill="none" stroke="#f2ebdb" stroke-width="10" opacity=".9"/>
+  <circle cx="300" cy="300" r="78" fill="#0d0b08"/>
+  <circle cx="300" cy="300" r="36" fill="#0d0b08"/>
+  <circle cx="300" cy="300" r="22" fill="#4f7cff"/>
+</svg>

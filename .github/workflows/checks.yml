@@ -1,0 +1,22 @@
+name: checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Syntax check server and client
+        run: |
+          node --check server.mjs
+          node --check public/app.js
+          node --check public/prompts.js
+          node --check public/markdown.js
+          node --check electron/main.cjs
+          node --check electron/preload.cjs

@@ -1,0 +1,19 @@
+{
+  "name": "whalechat",
+  "version": "0.56.0",
+  "private": true,
+  "description": "D&M local AI chat client",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "mock": "node tools/mock-api.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "electron/main.cjs",
+  "devDependencies": {
+    "@electron/packager": "^18.4.0",
+    "electron": "33.4.11"
+  }
+}
