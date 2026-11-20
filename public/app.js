@@ -2,7 +2,7 @@ import { renderMarkdown } from './markdown.js';
 import { DEFAULT_SYSTEM_PROMPTS, EMPTY_TITLES } from './prompts.js';
 
 /* ==========================================================================
-   D&M · 前端逻辑
+   M · 前端逻辑
    所有数据只存在本机 localStorage；API Key 只在请求头里经过本机代理。
    ========================================================================== */
 
@@ -114,6 +114,7 @@ const dom = {
   settingsModal: $('#settingsModal'),
   setKey: $('#setKey'),
   toggleKey: $('#toggleKey'),
+  pasteKey: $('#pasteKey'),
   setBase: $('#setBase'),
   setModel: $('#setModel'),
   modelOptions: $('#modelOptions'),
@@ -401,8 +402,8 @@ function defaultSystemPrompt() {
 function updateEmptyTitle(dark) {
   if (!dom.emptyTitle) return;
   dom.emptyTitle.textContent = dark ? EMPTY_TITLES.dark : EMPTY_TITLES.light;
-  dom.emptyTitle.classList.toggle('is-whale-title', dark);
-  dom.emptyTitle.classList.toggle('is-moss-title', !dark);
+  dom.emptyTitle.classList.remove('is-whale-title');
+  dom.emptyTitle.classList.add('is-moss-title');
 }
 
 function syncThemeAssets(dark) {
@@ -669,13 +670,13 @@ function renderModelOptions() {
   for (const id of models) {
     const option = document.createElement('option');
     option.value = id;
-    option.textContent = id;
+    option.textContent = id === 'deepseek-flash' ? 'V4.1 Flash' : id === 'deepseek-v4-pro' ? 'V4 Pro' : id;
     dom.modelSelect.append(option);
 
     const dataOption = document.createElement('option');
     dataOption.value = id;
-    if (id === 'deepseek-flash') dataOption.label = 'DeepSeek V4.1 Flash';
-    if (id === 'deepseek-v4-pro') dataOption.label = 'DeepSeek V4 Pro';
+    if (id === 'deepseek-flash') dataOption.label = 'V4.1 Flash';
+    if (id === 'deepseek-v4-pro') dataOption.label = 'V4 Pro';
     dom.modelOptions.append(dataOption);
   }
 
@@ -1017,13 +1018,13 @@ function exportConversations(list, scope = '全部对话') {
   const payload = {
     format: 'dm.conversations',
     version: 1,
-    app: 'D&M',
+    app: 'M',
     exportedAt: nowIso(),
     conversations,
   };
   const title = conversations.length === 1 ? conversations[0].title : scope;
   const stamp = new Date().toISOString().slice(0, 10);
-  saveExportFile(`D&M-${safeExportName(title)}-${stamp}.json`, JSON.stringify(payload, null, 2));
+  saveExportFile(`M-${safeExportName(title)}-${stamp}.json`, JSON.stringify(payload, null, 2));
 }
 
 function importMessage(raw) {
@@ -1117,7 +1118,7 @@ function renderHeader() {
   const parent = parentOf(conversation);
   const depth = depthOf(conversation);
   dom.title.textContent = title;
-  document.title = title === '新对话' ? 'D&M' : `${title} · D&M`;
+  document.title = title === '新对话' ? 'M' : `${title} · M`;
 
   if (parent) {
     dom.meta.textContent = state.generating
@@ -1602,7 +1603,7 @@ function renderWebToggle() {
   dom.webToggle.disabled = state.generating || !supported;
   dom.webToggle.setAttribute('aria-pressed', String(supported && enabled));
   dom.webToggle.title = supported
-    ? '联网搜索 / 阅读链接（DeepSeek）'
+    ? '联网搜索 / 阅读链接'
     : '当前模型不支持 DeepSeek 联网工具';
 }
 
@@ -1619,7 +1620,7 @@ function createMessageNode(message, animate = true) {
 
   const who = document.createElement('span');
   who.className = 'msg-who';
-  who.textContent = message.role === 'user' ? '你' : 'D&M';
+  who.textContent = message.role === 'user' ? '你' : 'M';
   head.append(who);
 
   if (message.role === 'assistant' && message.model) {
@@ -2152,8 +2153,7 @@ function syncMossVisibility() {
   const hasMessages = Boolean(conversation?.messages.length);
   dom.main?.classList.toggle('chat-has-messages', hasMessages);
   if (!dom.chatSonar) return;
-  const lightMoss = document.documentElement.dataset.scheme === 'light';
-  dom.chatSonar.hidden = !lightMoss;
+  dom.chatSonar.hidden = false;
 }
 
 function renderMessages() {
@@ -2450,7 +2450,7 @@ function errorMessage(data, status) {
 function humanError(error) {
   const message = String(error?.message || '');
   if (/Failed to fetch|NetworkError|Load failed|fetch failed/i.test(message)) {
-    return '连不上本机服务，请确认 D&M 仍在运行，然后重试。';
+    return '连不上本机服务，请确认 M 仍在运行，然后重试。';
   }
   return message || '请求失败，请稍后重试。';
 }
@@ -3844,7 +3844,7 @@ function bindEvents() {
     persistSettings();
     renderHeader();
     renderThinkingToggle();
-    toast(`模型已切换：${state.settings.model}`, 1600);
+    toast(`模型已切换：${dom.modelSelect.selectedOptions[0]?.textContent || state.settings.model}`, 1600);
   });
 
   dom.thinkingToggle.addEventListener('click', () => {
@@ -3921,6 +3921,18 @@ function bindEvents() {
 
   dom.settingsModal.querySelectorAll('[data-close-settings]').forEach((element) => {
     element.addEventListener('click', closeSettings);
+  });
+
+  dom.pasteKey?.addEventListener('click', async () => {
+    try {
+      const text = (await navigator.clipboard.readText()).trim();
+      if (!text) { toast('剪贴板是空的。', 1800); return; }
+      dom.setKey.value = text;
+      dom.setKey.focus();
+      toast('Key 已粘贴。', 1600);
+    } catch {
+      toast('读取剪贴板失败，请在输入框里按 Ctrl+V。', 2400);
+    }
   });
 
   dom.toggleKey.addEventListener('click', () => {
@@ -4162,7 +4174,6 @@ function init() {
   renderAll();
   setGeneratingUI(false);
   // The dark D keeps the quiet dot field; random highlights are slow and isolated.
-  initQuietDots();
   if (state.settings.apiKey.trim()) {
     setTimeout(() => void refreshBalance({ silent: true }), 700);
   }
