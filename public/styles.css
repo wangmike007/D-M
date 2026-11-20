@@ -6435,3 +6435,160 @@ html[data-theme="construct"] .wd-dot.is-quiet-hot {
     line-height: 1.0 !important;
   }
 }
+
+
+/* M: both light and dark are MOSS; the D/whale layer stays retired. */
+html[data-theme="construct"] .whale-d {
+  display: none !important;
+}
+
+html[data-theme="construct"][data-scheme="dark"] .sonar-viewport .chat-sonar {
+  display: block !important;
+}
+
+
+/* M dark MOSS: the long MOSS quote needs air, not overlapping lines. */
+html[data-theme="construct"][data-scheme="dark"] .empty-state h2 {
+  max-width: 760px;
+  font-size: clamp(38px, 4.6vw, 68px);
+  line-height: 1.2;
+  letter-spacing: -.035em;
+}
+
+
+/* M: never show the retired D in the brand slot. */
+html[data-theme="construct"][data-scheme="dark"] .brand-mark::after {
+  content: "M";
+}
+html[data-theme="construct"][data-scheme="dark"] .brand-mark span {
+  display: none;
+}
+html[data-theme="construct"][data-scheme="dark"] .empty-state h2 {
+  max-width: 720px;
+  font-size: clamp(34px, 4.1vw, 52px);
+  line-height: 1.2;
+}
+
+
+/* M dark MOSS: use the proven light-core artwork on the dark field. */
+html[data-theme="construct"][data-scheme="dark"] .sonar-viewport .chat-sonar {
+  width: min(620px, 44vw);
+  height: min(620px, 44vw);
+  background-image: url("./moss-core.svg") !important;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 1;
+}
+html[data-theme="construct"] .brand-name {
+  display: none;
+}
+
+
+/* Keep MOSS clear of the headline on desktop, and never paint the old D. */
+html[data-theme="construct"][data-scheme="dark"] .sonar-viewport .chat-sonar {
+  right: -24px;
+  width: min(540px, 38vw);
+  height: min(540px, 38vw);
+  transform: translateY(-50%);
+}
+
+
+html[data-theme="construct"][data-scheme="dark"] .sonar-viewport .chat-sonar {
+  top: 50% !important;
+}
+
+
+html[data-theme="construct"][data-scheme="dark"] .sonar-viewport .chat-sonar {
+  right: -110px;
+  width: min(520px, 36vw);
+  height: min(520px, 36vw);
+}
+
+
+/* MOSS dark: black-red, never blue. */
+html[data-theme="construct"][data-scheme="dark"] {
+  --bg: #080605;
+  --bg-elev: #120b08;
+  --panel: #0b0705;
+  --panel-2: #1b100c;
+  --ink: #f4e7d2;
+  --ink-2: #d3b6a3;
+  --muted: #9a7b69;
+  --line: #3a1e18;
+  --line-strong: #f4e7d2;
+  --accent: #d42b1f;
+  --accent-ink: #ff8d7d;
+  --accent-soft: #2a0b08;
+  --user-bg: #3a0f0b;
+  --danger: #ff6a5a;
+  --danger-soft: #34100c;
+  --ok: #b58b5a;
+  --code-bg: #060302;
+  --code-line: #3a1a14;
+  --code-muted: #a88775;
+  --shadow-sm: 3px 3px 0 #f4e7d2;
+  --shadow-md: 14px 14px 0 rgba(0, 0, 0, .62);
+}
+html[data-theme="construct"][data-scheme="dark"] body {
+  background-color: #080605;
+  background-image: none;
+}
+html[data-theme="construct"][data-scheme="dark"] .conv-card {
+  box-shadow: 3px 3px 0 rgba(212, 43, 31, .9);
+}
+html[data-theme="construct"][data-scheme="dark"] .conv-card:hover,
+html[data-theme="construct"][data-scheme="dark"] .conv-card:focus-within {
+  box-shadow: 5px 5px 0 rgba(212, 43, 31, .95);
+}
+html[data-theme="construct"][data-scheme="dark"] .sonar i,
+html[data-theme="construct"][data-scheme="dark"] .chat-sonar i {
+  border-color: #d42b1f !important;
+}
+html[data-theme="construct"][data-scheme="dark"] .sonar-viewport::before {
+  background: radial-gradient(circle at 72% 48%, rgba(212, 43, 31, .24), transparent 62%) !important;
+}
+html[data-theme="construct"][data-scheme="dark"] .empty-state h2 {
+  max-width: 510px;
+  font-size: clamp(28px, 3.2vw, 40px);
+  line-height: 1.28;
+  letter-spacing: -.03em;
+}
+
+
+/* Light MOSS sits exactly where dark MOSS sits. */
+html[data-theme="construct"][data-scheme="light"] .sonar-viewport .chat-sonar {
+  top: 50% !important;
+  right: -110px;
+  width: min(520px, 36vw);
+  height: min(520px, 36vw);
+  transform: translateY(-50%);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+.key-paste {
+  width: auto !important;
+  padding: 0 10px !important;
+  font-size: 12px !important;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+/* Light MOSS uses the same right/top anchor as dark, with a narrower headline. */
+html[data-theme="construct"][data-scheme="light"] .empty-state h2 {
+  max-width: 560px;
+  font-size: clamp(34px, 3.6vw, 54px);
+  line-height: 1.2;
+}
+html[data-theme="construct"][data-scheme="light"] .sonar-viewport .chat-sonar,
+html[data-theme="construct"][data-scheme="dark"] .sonar-viewport .chat-sonar {
+  top: 50% !important;
+  right: -110px;
+  width: min(500px, 34vw);
+  height: min(500px, 34vw);
+  transform: translateY(-50%);
+}
