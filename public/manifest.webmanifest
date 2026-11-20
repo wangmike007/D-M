@@ -1,13 +1,16 @@
 {
-  "name": "D&M",
-  "short_name": "D&M",
+  "name": "M",
+  "short_name": "M",
   "description": "自带 API Key 的本机对话客户端",
   "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
-  "categories": ["productivity", "utilities"],
+  "categories": [
+    "productivity",
+    "utilities"
+  ],
   "background_color": "#F7F5EF",
   "theme_color": "#F7F5EF",
   "lang": "zh-CN",
