@@ -28,5 +28,5 @@
   <path d="M300 48 A252 252 0 0 0 48 300" fill="none" stroke="#f2ebdb" stroke-width="10" opacity=".9"/>
   <circle cx="300" cy="300" r="78" fill="#0d0b08"/>
   <circle cx="300" cy="300" r="36" fill="#0d0b08"/>
-  <circle cx="300" cy="300" r="22" fill="#4f7cff"/>
+  <circle cx="300" cy="300" r="22" fill="#D42B1F"/>
 </svg>
